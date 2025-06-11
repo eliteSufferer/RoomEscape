@@ -25,6 +25,9 @@ public class FirstPersonController : MonoBehaviour
     
     void Update()
     {
+        // 🔥 НОВАЯ СТРОЧКА: Не двигаться и не крутить камеру на паузе
+        if (Time.timeScale == 0f) return;
+        
         // Движение мышью
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -46,10 +49,10 @@ public class FirstPersonController : MonoBehaviour
         Vector3 movement = transform.right * horizontal + transform.forward * vertical;
         characterController.Move(movement * speed * Time.deltaTime);
         
-        // ESC для разблокировки курсора
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
+        // ESC для разблокировки курсора (теперь обрабатывается в GameManager)
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     Cursor.lockState = CursorLockMode.None;
+        // }
     }
 }

@@ -16,6 +16,12 @@ public class SafeController : MonoBehaviour, IInteractable
     [Header("Key")]
     public GameObject key;
     
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip buttonSound;
+    public AudioClip openSound;
+    public AudioClip errorSound;
+    
     private string currentCode = "";
     private bool uiOpen = false;
     
@@ -56,6 +62,9 @@ public class SafeController : MonoBehaviour, IInteractable
     {
         if (currentCode.Length < maxCodeLength)
         {
+            // 🔊 Звук нажатия кнопки
+            PlaySound(buttonSound);
+            
             currentCode += digit.ToString();
             UpdateDisplay();
         }
@@ -63,6 +72,9 @@ public class SafeController : MonoBehaviour, IInteractable
     
     public void ClearCode()
     {
+        // 🔊 Звук нажатия кнопки
+        PlaySound(buttonSound);
+        
         currentCode = "";
         UpdateDisplay();
         statusText.text = "Введите код:";
@@ -76,6 +88,9 @@ public class SafeController : MonoBehaviour, IInteractable
         }
         else
         {
+            // 🔊 Звук ошибки
+            PlaySound(errorSound);
+            
             statusText.text = "Неверный код!";
             currentCode = "";
             UpdateDisplay();
@@ -97,11 +112,22 @@ public class SafeController : MonoBehaviour, IInteractable
         isOpen = true;
         statusText.text = "Сейф открыт!";
         
+        // 🔊 Звук открытия
+        PlaySound(openSound);
+        
         if (key != null)
         {
             key.SetActive(true);
         }
         
         Invoke("CloseCodeUI", 1.5f);
+    }
+    
+    void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 }
