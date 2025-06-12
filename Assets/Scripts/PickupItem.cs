@@ -5,7 +5,7 @@ public class PickupItem : MonoBehaviour, IInteractable
     [Header("Item Settings")]
     public string itemName = "Ключ";
     public Sprite itemIcon;
-    public int stackSize = 1;
+    public int stackSize = 4; // 🔥 Максимум 3 в стаке
     
     [Header("Audio")]
     public AudioClip pickupSound;

@@ -16,6 +16,10 @@ public class SafeController : MonoBehaviour, IInteractable
     [Header("Key")]
     public GameObject key;
     
+    [Header("Animation")]
+    public Animator safeAnimator; // 🔥 Аниматор двери сейфа (перетяни объект с дверцей!)
+    public string openTrigger = "OpenSafe"; // 🔥 Триггер анимации (лучше чем Bool)
+    
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip buttonSound;
@@ -30,6 +34,10 @@ public class SafeController : MonoBehaviour, IInteractable
         if (!isOpen)
         {
             OpenCodeUI();
+        }
+        else
+        {
+            Debug.Log("Сейф уже открыт!");
         }
     }
     
@@ -115,12 +123,27 @@ public class SafeController : MonoBehaviour, IInteractable
         // 🔊 Звук открытия
         PlaySound(openSound);
         
+        // 🎬 АНИМАЦИЯ ОТКРЫТИЯ ДВЕРИ СЕЙФА
+        if (safeAnimator != null)
+        {
+            safeAnimator.SetTrigger(openTrigger);
+            Debug.Log("Запущена анимация открытия сейфа!");
+        }
+        
+        // Показываем ключ с небольшой задержкой (после начала анимации)
+        Invoke("ShowKey", 0.5f);
+        
+        // Закрываем UI с задержкой
+        Invoke("CloseCodeUI", 0.5f);
+    }
+    
+    void ShowKey()
+    {
         if (key != null)
         {
             key.SetActive(true);
+            Debug.Log("Ключ появился в сейфе!");
         }
-        
-        Invoke("CloseCodeUI", 1.5f);
     }
     
     void PlaySound(AudioClip clip)
