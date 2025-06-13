@@ -48,6 +48,13 @@ public class SafeController : MonoBehaviour, IInteractable
     
     public void OpenCodeUI()
     {
+        Debug.Log("Открытие UI кода сейфа");
+
+        if (uiOpen)
+        {
+            Debug.Log("UI кода уже открыто!");
+            return;
+        }
         uiOpen = true;
         codePanel.SetActive(true);
         currentCode = "";
@@ -60,6 +67,7 @@ public class SafeController : MonoBehaviour, IInteractable
     
     public void CloseCodeUI()
     {
+        Debug.Log("Закрытие UI кода сейфа");
         uiOpen = false;
         codePanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;

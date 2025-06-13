@@ -138,4 +138,15 @@ public class ExitDoor : MonoBehaviour, IInteractable
     {
         Debug.Log("🎉 Поздравляем! Дверь открыта, теперь можете выйти из комнаты! 🎉");
     }
+
+    public void UnlockDoorWithKey()
+{
+    if (isLocked)
+    {
+        isLocked = false;
+        OpenDoor();
+        // Звуки, анимации и т.д.
+        Invoke("ShowVictoryMessage", 2f);
+    }
+}
 }
